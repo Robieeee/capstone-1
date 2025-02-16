@@ -163,7 +163,7 @@ def menampilkan_buku_sesuai_filter():
             print("3. Menampilkan buku sesuai tahun penerbit")
             print("4. Kembali ke menu buku")
             try:
-                pilihan = int(input("Silahkan masukan yang kamu inginkan ya (1-3): "))
+                pilihan = int(input("Silahkan masukan yang kamu inginkan ya (1-4): "))
                 if pilihan == 1:
                     menampilkan_buku_sesuai_filter_by_id()
                 elif pilihan == 2:
@@ -320,20 +320,36 @@ def hapus_buku():
                 return hapus_buku_menu()
             except Exception as e:
                 print(f"{e}")
-        
+    
+def hapus_seluruh_buku():
+    if gudang_buku:
+        validasi_1 = input("Apakah kamu yakin ingin menghapus seluruh data? (Y/N)").strip().lower()
+        if validasi_1 == "y":
+            gudang_buku.clear()
+            print("Seluruh data telah di hapus")
+            return hapus_buku_menu()
+        else:
+            ("Batal")
+    else:
+        print("data tidak ditemukan!")
+    
 def hapus_buku_menu():
     while True:
         print("\n Silahkan pilih menu yang diinginkan !")
         print("1. Menghapus buku sesuai book id")
-        print("2. Kembali ke menu utama")
+        print("2. Menghapus seluruh buku")
+        print("3. Kembali ke menu utama")
+
         try:
-            pilihan = int(input("Silahkan pilih opsi yang kamu inginkan yaa (1-2): "))
+            pilihan = int(input("Silahkan pilih opsi yang kamu inginkan yaa (1-3): "))
             if pilihan == 1:
                 hapus_buku()
             elif pilihan == 2:
+                return hapus_seluruh_buku()
+            elif pilihan == 3:
                 return menu_utama()
             else:
-                print("Silahkan pilih opsi yang valid ya (1-2)")
+                print("Silahkan pilih opsi yang valid ya (1-3)")
         except ValueError:
             print("Silahkan masukan angka yang valid yaa")
         except KeyboardInterrupt:
@@ -387,27 +403,66 @@ def update_buku():
             update_lagi = input("Apakah ingin mengupdate buku kembali? (Y/N)").lower()
             if update_lagi != 'y':
                 return update_buku_menu()
-                 
-def update_buku_menu():
+
+def pinjam_buku():
     if gudang_buku:
         while True:
-            print("Update Buku!")
-            print("1. Update Book by Id")
-            print("2. Kembali ke menu utama")
-            try:
-                pilihan = int(input("Silahkan pilih opsi yang kamu inginkan yaa (1-2): "))
-                if pilihan == 1:
-                    update_buku()
-                elif pilihan == 2:
-                    return menu_utama()
-                else:
-                    print("Silahkan masukan angka yang valid yaa (1-2)\n")
-            except ValueError:
-                print("Silahkan masukan angka yang valid yaa!")
-            except KeyboardInterrupt:
+            masukan_buku_id = input("Masukan judul buku yang ingin kamu pinjam: ").strip().upper()
+            if masukan_buku_id in gudang_buku:
+                buku = gudang_buku[masukan_buku_id]
+                hasil_pencarian =[
+                    [
+                        masukan_buku_id,
+                        buku["Judul"],
+                        buku["Penulis"],
+                        buku["Tahun Pembuatan"],
+                        buku["Penerbit"],
+                        buku["Status"],
+                        buku["Negara Penerbit"]
+                    ]
+                ]
+                print("Buku Ditemukan!\nBerikut informasi buku tersebut!")
+                print(tabulate(hasil_pencarian, headers=["BookId", "Judul Buku", "Penulis", "Tahun Pembuatan", "Penerbit", "Status", "Negara Penerbit"], tablefmt="grid"))
+
+                if buku["Status"] == "Available":
+                    nama_peminjam = input("Masukan nama mu yaa!: ").strip().title()
+                    validasi_1 = input("Apakah kamu yakin untuk meminjam buku ini ?(Y/N)").strip().lower()
+                    if validasi_1 == 'y':
+                        buku["Status"] = "Dipinjam"
+                        print("Peminjama berhasil!")
+                    else:
+                        print("Pinjam dibatalkan!")
+
+                pinjam_lagi = input("Apakah kamu ingin meminjam buku lagi? (Y/N)").strip().lower()
+                if pinjam_lagi != 'y':
+                    return update_buku_menu()
+            else:
+                print("Buku yang kamu cari tidak tersedia!")
+    else:
+        print("Data tidak ditemukan!")
+
+def update_buku_menu():
+    while True:
+        print("Update Buku!")
+        print("1. Update buku by Id")
+        print("2. Pinjam buku")
+        print("3. Kembali ke menu utama")
+        try:
+            pilihan = int(input("Silahkan pilih opsi yang kamu inginkan yaa (1-3): "))
+            if pilihan == 1:
+                update_buku()
+            elif pilihan == 2:
+                pinjam_buku()
+            elif pilihan == 3:
                 return menu_utama()
-            except Exception as e :
-                print(f"{e}")
+            else:
+                print("Silahkan masukan angka yang valid yaa (1-3)\n")
+        except ValueError:
+            print("Silahkan masukan angka yang valid yaa!")
+        except KeyboardInterrupt:
+            return menu_utama()
+        except Exception as e :
+            print(f"{e}")
 #endregion
 
 #region exit Function
@@ -426,7 +481,7 @@ def menu_utama():
         print("4. Hapus koleksi buku")
         print("5. Keluar")
         try:
-            pilihan = int(input("Masukan Pilihan yang diinginkan (1-4): "))
+            pilihan = int(input("Masukan Pilihan yang diinginkan (1-5): "))
             if pilihan == 1:
                 menu_buku()
             elif pilihan == 2:
@@ -441,7 +496,7 @@ def menu_utama():
             else:
                 print("\nMohon Masukan angka yang valid yaa !")
         except ValueError:
-            print("\nPilihan kamu tidak sesuai, mohon masukan kembali pilihan menu yang diinginkan")
+            print("\nPilihan kamu tidak sesuai, mohon masukan kembali pilihan menu yang diinginkan (1-5)")
         except KeyboardInterrupt:
             print("\nTerima kasih telah mengunjungi. Sampai jumpaa!")
             break
