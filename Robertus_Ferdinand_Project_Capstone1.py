@@ -385,6 +385,7 @@ def update_buku():
                     if masukan_kolom in buku:
                         isi_baru_dari_kolom = input("Masukan isi baru yang diinginkan pada kolom tersebut: ").strip().title()
                         buku[masukan_kolom] = isi_baru_dari_kolom
+                        print("Data berhasil di update!")
                         hasil_pencarian = [
                             [
                                 masukan_id,
