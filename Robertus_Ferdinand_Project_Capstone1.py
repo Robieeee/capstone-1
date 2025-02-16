@@ -132,7 +132,7 @@ def menampilkan_buku_sesuai_filter_by_judul():
                         buku["Negara Penerbit"]
                     ]
 
-                    for key, buku in gudang_buku.items() if pilih_buku in buku["Judul"].lower()
+                    for key, buku in gudang_buku.items() if pilih_buku in buku["Judul"].title()
                 ]
                 if hasil_pencarian:
                     print("\nBuku yang kamu cari tersedia:\n")
@@ -142,7 +142,7 @@ def menampilkan_buku_sesuai_filter_by_judul():
                     return menampilkan_buku_sesuai_filter()
                 
                 cari_lagi = input("Apakah ada buku yang masih ingin kamu cari ? (Y/N): ").strip().lower()
-                if cari_lagi == 'y':
+                if cari_lagi != 'y':
                     return menampilkan_buku_sesuai_filter()
         
             except ValueError:
@@ -217,39 +217,41 @@ def tambah_buku():
             masukan_id = str(input("Silahkan masukan id baru yang kamu inginkan yaa: ")).strip().upper()
             if masukan_id in gudang_buku:
                 print("Id yang kamu masukan telah tersedia")
-            while True:
-                masukan_judul = input("Silahkan masukan judul baru yang kamu inginkan yaa: ").strip().title()
-                masukan_penulis = input("Masukan penulis dari buku tersebut yaa: ").strip().title()
-                masukan_tahun = input("Masukan tahun pembuatan dari buku tersebut yaa: ").strip()
-                masukan_penerbit = input("Masukan penerbit dari buku tersebut: ").strip().title()
-                masukan_status = "Available"
-                masukan_negara_penerbit = "Indonesia"
-                
-                print("\n Konfirmasi input data buku")
-                print(f"Id Buku : {masukan_id}")
-                print(f"Judul: {masukan_judul}")
-                print(f"Penulis: {masukan_penulis}")
-                print(f"Tahun pembuatan: {masukan_tahun}")
-                print(f"Penerbit Buku: {masukan_penerbit}")
-                print(f"Status: {masukan_status}")
-                print(f"Negara Penerbit: {masukan_negara_penerbit}")
+                continue
+            else:
+                while True:
+                    masukan_judul = input("Silahkan masukan judul baru yang kamu inginkan yaa: ").strip().title()
+                    masukan_penulis = input("Masukan penulis dari buku tersebut yaa: ").strip().title()
+                    masukan_tahun = input("Masukan tahun pembuatan dari buku tersebut yaa: ").strip()
+                    masukan_penerbit = input("Masukan penerbit dari buku tersebut: ").strip().title()
+                    masukan_status = "Available"
+                    masukan_negara_penerbit = "Indonesia"
+                    
+                    print("\n Konfirmasi input data buku")
+                    print(f"Id Buku : {masukan_id}")
+                    print(f"Judul: {masukan_judul}")
+                    print(f"Penulis: {masukan_penulis}")
+                    print(f"Tahun pembuatan: {masukan_tahun}")
+                    print(f"Penerbit Buku: {masukan_penerbit}")
+                    print(f"Status: {masukan_status}")
+                    print(f"Negara Penerbit: {masukan_negara_penerbit}")
 
-                input_validasi = input("Apakah kamu yakin dengan data yang kamu input ? (Y/N)").lower()
-                if input_validasi == 'y':
-                    gudang_buku[masukan_id]={
-                        "Judul":masukan_judul,
-                        "Penulis":masukan_penulis,
-                        "Tahun Pembuatan": masukan_tahun,
-                        "Penerbit": masukan_penerbit,
-                        "Status": masukan_status,
-                        "Negara Penerbit": masukan_negara_penerbit
-                    }
-                    print("Data berhasil di input")
-                else:
-                    print("Silahkan masukan kembali yaa")
-                tambah_lagi = input("\nApakah kamu ingin menambahkan buku lainnya ? (Y/N)").strip().lower()
-                if tambah_lagi != "y":
-                    return tambah_buku_menu()
+                    input_validasi = input("Apakah kamu yakin dengan data yang kamu input ? (Y/N)").lower()
+                    if input_validasi == 'y':
+                        gudang_buku[masukan_id]={
+                            "Judul":masukan_judul,
+                            "Penulis":masukan_penulis,
+                            "Tahun Pembuatan": masukan_tahun,
+                            "Penerbit": masukan_penerbit,
+                            "Status": masukan_status,
+                            "Negara Penerbit": masukan_negara_penerbit
+                        }
+                        print("Data berhasil di input")
+                    else:
+                        print("Silahkan masukan kembali yaa")
+                    tambah_lagi = input("\nApakah kamu ingin menambahkan buku lainnya ? (Y/N)").strip().lower()
+                    if tambah_lagi != "y":
+                        return tambah_buku_menu()
         except ValueError:
             print("Mohon masukan id dengan kombinasi huruf dan angka yaa!")
         except KeyboardInterrupt:
@@ -407,7 +409,7 @@ def update_buku():
 def pinjam_buku():
     if gudang_buku:
         while True:
-            masukan_buku_id = input("Masukan judul buku yang ingin kamu pinjam: ").strip().upper()
+            masukan_buku_id = input("Masukan id buku yang ingin kamu pinjam: ").strip().upper()
             if masukan_buku_id in gudang_buku:
                 buku = gudang_buku[masukan_buku_id]
                 hasil_pencarian =[
@@ -429,7 +431,7 @@ def pinjam_buku():
                     validasi_1 = input("Apakah kamu yakin untuk meminjam buku ini ?(Y/N)").strip().lower()
                     if validasi_1 == 'y':
                         buku["Status"] = "Dipinjam"
-                        print("Peminjama berhasil!")
+                        print("Peminjaman berhasil!")
                     else:
                         print("Pinjam dibatalkan!")
 
