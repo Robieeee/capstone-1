@@ -449,5 +449,3 @@ def menu_utama():
             print(f"{e}")
             break
 menu_utama()
-            
-
