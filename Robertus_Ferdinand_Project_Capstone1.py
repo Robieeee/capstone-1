@@ -103,6 +103,7 @@ def menampilkan_buku_sesuai_filter_by_id():
                 else:
                     print("Mohon maaf buku yang kamu cari tidak ada!")
                     return menampilkan_buku_sesuai_filter()
+                    
                 cari_lagi = input("Apakah ada buku yang masih ingin kamu cari ? (Y/N): ").strip().lower()
                 if cari_lagi != 'y':
                     return menampilkan_buku_sesuai_filter()
@@ -131,7 +132,6 @@ def menampilkan_buku_sesuai_filter_by_judul():
                         buku["Status"],
                         buku["Negara Penerbit"]
                     ]
-
                     for key, buku in gudang_buku.items() if pilih_buku in buku["Judul"].title()
                 ]
                 if hasil_pencarian:
@@ -144,7 +144,7 @@ def menampilkan_buku_sesuai_filter_by_judul():
                 cari_lagi = input("Apakah ada buku yang masih ingin kamu cari ? (Y/N): ").strip().lower()
                 if cari_lagi != 'y':
                     return menampilkan_buku_sesuai_filter()
-        
+
             except ValueError:
                 print("Silahkan masukan judul buku yang valid!")
             except KeyboardInterrupt:
