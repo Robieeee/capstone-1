@@ -397,7 +397,9 @@ def update_buku():
                                 buku["Negara Penerbit"]
                             ]
                         ]
-                    print(tabulate(hasil_pencarian, headers=["BookId", "Judul Buku", "Penulis", "Tahun Pembuatan", "Penerbit", "Status", "Negara Penerbit"], tablefmt="grid"))
+                        print(tabulate(hasil_pencarian, headers=["BookId", "Judul Buku", "Penulis", "Tahun Pembuatan", "Penerbit", "Status", "Negara Penerbit"], tablefmt="grid"))
+                    else:
+                        print("Tidak dapat mengubah BookId!")
                 else:
                     break
             else:
